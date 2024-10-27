@@ -5,6 +5,7 @@ Authors@R:
     person("Vijini Lakmini", "Rathnayake Mudiyanselage", , "vijinil@tamu.edu", role = c("aut", "cre"))
 Description: Optimal water release plan is an important category under water reservoir management. Operations research (OR) is a problem-solving and decision-making analytical method that is effective in the management of organizations. Goal programming is a type of operational research concept that fits for having multiple goals instead of a single objective. The important aspect is that if we do not get the solution by the linear programming model, we can apply the goal programming model to get the values of the deviation of the original solution. This package provides tools for optimizing water release strategies from reservoirs using goal programming techniques. The package allows users to determine optimal release schedules considering inflow, demand, constraints, and specified goals. It also assesses the reliability of these release strategies against water demand. Visualization functions are included to display reliability metrics, release schedules, and demand, facilitating effective interpretation and decision-making in water reservoir management.
 License: GPL-3
+URL: https://github.com/Vijini95/OptGoal
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
