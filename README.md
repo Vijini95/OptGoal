@@ -4,11 +4,11 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of OptGoal is to ...
+This package provides tools for optimizing water release strategies using goal programming and assessing the reliability of water reservoir systems.
 
 ## Installation
 
-You can install the development version of OptGoal from [GitHub](https://github.com/) with:
+You can install the development version of OptGoal from [GitHub](https://github.com/Vijini95/OptGoal) with:
 
 ``` r
 # install.packages("pak")
