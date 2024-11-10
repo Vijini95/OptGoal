@@ -30,5 +30,16 @@
 #' @import lpSolve
 #' @export
 optimize_release <- function(inflow, demand, constraints) {
+  T <- length(inflow)  # Number of time periods
 
+  # Input validation
+  if (length(demand) != T) {
+    stop("Inflow and demand vectors must be of the same length.")
+  }
+  if (length(constraints$S_min) != T || length(constraints$S_max) != T) {
+    stop("S_min and S_max must be vectors of length equal to the number of time periods.")
+  }
+  if (any(constraints$S_min > constraints$S_max)) {
+    stop("Each element of S_min must be less than or equal to the corresponding element in S_max.")
+  }
 }
