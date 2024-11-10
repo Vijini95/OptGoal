@@ -61,4 +61,10 @@ optimize_release <- function(inflow, demand, constraints) {
     rep(weight_positive, T),       # Weights for d_t^+
     rep(weight_negative, T)        # Weights for d_t^-
   )
+
+  # Initialize constraints matrices
+  total_constraints <- T * 4       # Continuity, Goal, Storage Limits (lower and upper)
+  constraints_matrix <- matrix(0, nrow = total_constraints, ncol = num_vars)
+  constraints_direction <- character(total_constraints)
+  constraints_rhs <- numeric(total_constraints)
 }
