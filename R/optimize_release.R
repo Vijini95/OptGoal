@@ -6,3 +6,10 @@
 #' @param demand Numeric vector of demand amounts.
 #' @param constraints List of constraints for the optimization.
 #' @param goals List of goals for the optimization.
+#'
+#' @return A list containing optimized release schedules.
+#' @examples
+#' \dontrun{
+#' # Example usage
+#' optimized_release <- optimize_release(inflow, demand, constraints, goals)
+#' }
