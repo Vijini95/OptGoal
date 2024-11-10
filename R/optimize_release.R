@@ -46,4 +46,8 @@ optimize_release <- function(inflow, demand, constraints) {
   # Set default release limits
   R_min <- rep(0, T)        # No negative releases
   R_max <- rep(Inf, T)      # No upper limit on releases
+
+  # Weights for deviations (both set to 1)
+  weight_positive <- 1
+  weight_negative <- 1
 }
