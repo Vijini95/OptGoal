@@ -42,4 +42,8 @@ optimize_release <- function(inflow, demand, constraints) {
   if (any(constraints$S_min > constraints$S_max)) {
     stop("Each element of S_min must be less than or equal to the corresponding element in S_max.")
   }
+
+  # Set default release limits
+  R_min <- rep(0, T)        # No negative releases
+  R_max <- rep(Inf, T)      # No upper limit on releases
 }
