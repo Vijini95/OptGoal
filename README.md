@@ -12,10 +12,13 @@ It also assesses the reliability of these release strategies against water deman
 
 ## Installation
 
-You can install the development version of OptGoal from [GitHub](https://github.com/) with:
+You can install the development version of **OptGoal** from GitHub with:
 
-``` r
-# install.packages("devtools")
+```r
+# Install devtools if you haven't already
+install.packages("devtools")
+
+# Install OptGoal from GitHub
 devtools::install_github("Vijini95/OptGoal")
 ```
 
