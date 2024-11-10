@@ -28,6 +28,6 @@
 #' result <- optimize_release(inflow, demand, constraints)
 #' }
 #' @export
-optimize_release <- function(inflow, demand, constraints, goals) {
-  # TODO: Implement the optimization algorithm
+optimize_release <- function(inflow, demand, constraints) {
+  library(lpSolve)
 }
