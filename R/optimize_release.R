@@ -54,4 +54,11 @@ optimize_release <- function(inflow, demand, constraints) {
   # Decision variables for each time period:
   # R_t (release), S_t (storage), d_t^+, d_t^-
   num_vars <- T * 4  # Total number of variables
+
+  # Objective function coefficients
+  obj_coeffs <- c(
+    rep(0, T * 2),                 # Zero coefficients for R_t and S_t
+    rep(weight_positive, T),       # Weights for d_t^+
+    rep(weight_negative, T)        # Weights for d_t^-
+  )
 }
