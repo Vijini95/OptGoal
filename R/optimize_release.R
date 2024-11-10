@@ -27,7 +27,8 @@
 #' )
 #' result <- optimize_release(inflow, demand, constraints)
 #' }
+#' @import lpSolve
 #' @export
 optimize_release <- function(inflow, demand, constraints) {
-  library(lpSolve)
+
 }
