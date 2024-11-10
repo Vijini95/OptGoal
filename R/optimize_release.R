@@ -13,3 +13,7 @@
 #' # Example usage
 #' optimized_release <- optimize_release(inflow, demand, constraints, goals)
 #' }
+#' @export
+optimize_release <- function(inflow, demand, constraints, goals) {
+  # TODO: Implement the optimization algorithm
+}
