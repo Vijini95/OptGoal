@@ -31,3 +31,11 @@ library(OptGoal)
 ## basic example code
 ```
 
+## Next Steps
+
+For the remainder of the semester, I plan to:
+
+- **Finalize Core Functions**: Complete the implementation and optimization of the `optimize_release` and `assess_reliability` functions.
+- **Enhance Documentation**: Write comprehensive documentation with detailed descriptions and usage examples for each function.
+- **Testing**: Use the `testthat` package to write unit tests, improving the package's reliability.
+- **Prepare for CRAN Submission**: Ensure the package meets all CRAN policies and guidelines for potential submission.
