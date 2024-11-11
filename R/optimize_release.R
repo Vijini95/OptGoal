@@ -140,4 +140,14 @@ optimize_release <- function(inflow, demand, constraints) {
     const.dir = constraints_direction,
     const.rhs = constraints_rhs
   )
+
+  if (result$status != 0) {
+    stop("Optimization did not find a feasible solution.")
+  }
+
+  # Extract the optimized release and storage
+  optimized_release <- result$solution[idx_R]
+  optimized_storage <- result$solution[idx_S]
+  deviations_positive <- result$solution[idx_d_plus]
+  deviations_negative <- result$solution[idx_d_minus]
 }
