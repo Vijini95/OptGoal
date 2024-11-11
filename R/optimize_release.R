@@ -84,4 +84,14 @@ optimize_release <- function(inflow, demand, constraints) {
     constraints_direction <- c(constraints_direction, "=")
     constraints_rhs <- c(constraints_rhs, rhs)
   }
+
+  # 3. Storage Limits (Lower Bounds)
+  for (t in 1:T) {
+    row <- rep(0, num_vars)
+    row[idx_S[t]] <- 1  # S_t
+
+    constraints_matrix <- rbind(constraints_matrix, row)
+    constraints_direction <- c(constraints_direction, ">=")
+    constraints_rhs <- c(constraints_rhs, constraints$S_min[t])
+  }
 }
