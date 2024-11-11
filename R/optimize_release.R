@@ -43,14 +43,6 @@ optimize_release <- function(inflow, demand, constraints) {
     stop("Each element of S_min must be less than or equal to the corresponding element in S_max.")
   }
 
-  # Set default release limits
-  R_min <- rep(0, T)        # No negative releases
-  R_max <- rep(Inf, T)      # No upper limit on releases
-
-  # Weights for deviations (both set to 1)
-  weight_positive <- 1
-  weight_negative <- 1
-
   # Decision variables for each time period:
   # R_t (release), S_t (storage), d_t^+, d_t^-
   num_vars <- T * 4  # Total number of variables
@@ -58,13 +50,19 @@ optimize_release <- function(inflow, demand, constraints) {
   # Objective function coefficients
   obj_coeffs <- c(
     rep(0, T * 2),                 # Zero coefficients for R_t and S_t
-    rep(weight_positive, T),       # Weights for d_t^+
-    rep(weight_negative, T)        # Weights for d_t^-
+    rep(1, T),                     # Weights for d_t^+
+    rep(1, T)                      # Weights for d_t^-
   )
 
   # Initialize constraints matrices
   total_constraints <- T * 4       # Continuity, Goal, Storage Limits (lower and upper)
-  constraints_matrix <- matrix(0, nrow = total_constraints, ncol = num_vars)
-  constraints_direction <- character(total_constraints)
-  constraints_rhs <- numeric(total_constraints)
+  constraints_matrix <- matrix(0, nrow = 0, ncol = num_vars)
+  constraints_direction <- character(0)
+  constraints_rhs <- numeric(0)
+
+  # Constraint indices
+  idx_R <- 1:T
+  idx_S <- (T + 1):(2 * T)
+  idx_d_plus <- (2 * T + 1):(3 * T)
+  idx_d_minus <- (3 * T + 1):(4 * T)
 }
