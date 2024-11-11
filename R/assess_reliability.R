@@ -17,4 +17,8 @@ assess_reliability <- function(release, demand) {
   if (length(release) != length(demand)) {
     stop("Release and demand vectors must be of the same length.")
   }
+  T <- length(release)
+
+  # Time-Based Reliability
+  time_reliability <- sum(release >= demand) / T
 }
