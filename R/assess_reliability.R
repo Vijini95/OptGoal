@@ -12,3 +12,9 @@
 #' reliability_results <- assess_reliability(result$release, demand)
 #' print(reliability_results)
 #' }
+#' @export
+assess_reliability <- function(release, demand) {
+  if (length(release) != length(demand)) {
+    stop("Release and demand vectors must be of the same length.")
+  }
+}
