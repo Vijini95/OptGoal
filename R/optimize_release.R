@@ -131,4 +131,13 @@ optimize_release <- function(inflow, demand, constraints) {
     constraints_direction <- c(constraints_direction, ">=")
     constraints_rhs <- c(constraints_rhs, 0)
   }
+
+  # Solve the optimization problem
+  result <- lp(
+    direction = "min",
+    objective.in = obj_coeffs,
+    const.mat = constraints_matrix,
+    const.dir = constraints_direction,
+    const.rhs = constraints_rhs
+  )
 }
