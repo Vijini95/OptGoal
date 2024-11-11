@@ -16,7 +16,7 @@ A data frame containing the reliability metrics.
 }
 \description{
 This function assesses the reliability of the release strategies against demand,
-calculating time-based reliability, volume-based reliability, vulnerability, and resilience.
+calculating time-based reliability, and volume-based reliability.
 }
 \examples{
 \dontrun{
