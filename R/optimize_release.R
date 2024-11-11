@@ -65,4 +65,23 @@ optimize_release <- function(inflow, demand, constraints) {
   idx_S <- (T + 1):(2 * T)
   idx_d_plus <- (2 * T + 1):(3 * T)
   idx_d_minus <- (3 * T + 1):(4 * T)
+
+  # 1. Continuity Equations
+  for (t in 1:T) {
+    row <- rep(0, num_vars)
+    row[idx_S[t]] <- 1  # S_t
+
+    if (t == 1) {
+      # S_t = S_0 + I_t - R_t
+      rhs <- constraints$initial_storage + inflow[t]
+    } else {
+      row[idx_S[t - 1]] <- -1  # -S_{t-1}
+      rhs <- inflow[t]
+    }
+    row[idx_R[t]] <- -1  # -R_t
+
+    constraints_matrix <- rbind(constraints_matrix, row)
+    constraints_direction <- c(constraints_direction, "=")
+    constraints_rhs <- c(constraints_rhs, rhs)
+  }
 }
