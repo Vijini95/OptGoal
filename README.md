@@ -24,7 +24,10 @@ This is a basic example which shows you how to solve a common problem:
 
 ``` r
 library(OptGoal)
-## basic example code
+library(lpSolve)
+
+# Run the optimize_release function
+Optimum_release <- optimize_release(inflow, demand, constraints)
 ```
 
 ## Next Steps
