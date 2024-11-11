@@ -36,7 +36,8 @@ optimize_release <- function(inflow, demand, constraints) {
   if (length(demand) != T) {
     stop("Inflow and demand vectors must be of the same length.")
   }
-  if (length(constraints$S_min) != T || length(constraints$S_max) != T) {
+  if (length(constraints$S_min) != T ||
+      length(constraints$S_max) != T) {
     stop("S_min and S_max must be vectors of length equal to the number of time periods.")
   }
   if (any(constraints$S_min > constraints$S_max)) {
@@ -48,11 +49,7 @@ optimize_release <- function(inflow, demand, constraints) {
   num_vars <- T * 4  # Total number of variables
 
   # Objective function coefficients
-  obj_coeffs <- c(
-    rep(0, T * 2),                 # Zero coefficients for R_t and S_t
-    rep(1, T),                     # Weights for d_t^+
-    rep(1, T)                      # Weights for d_t^-
-  )
+  obj_coeffs <- c(rep(0, T * 2), rep(1, T), rep(1, T))
 
   # Initialize constraints matrices
   total_constraints <- T * 4       # Continuity, Goal, Storage Limits (lower and upper)
@@ -123,6 +120,7 @@ optimize_release <- function(inflow, demand, constraints) {
     constraints_direction <- c(constraints_direction, ">=")
     constraints_rhs <- c(constraints_rhs, 0)
   }
+
   # d_t^- >= 0
   for (t in 1:T) {
     row <- rep(0, num_vars)
@@ -152,11 +150,13 @@ optimize_release <- function(inflow, demand, constraints) {
   deviations_negative <- result$solution[idx_d_minus]
 
   # Return the results
-  return(list(
-    release = optimized_release,
-    storage = optimized_storage,
-    deviations_positive = deviations_positive,
-    deviations_negative = deviations_negative,
-    objective_value = result$objval
-  ))
+  return(
+    list(
+      release = optimized_release,
+      storage = optimized_storage,
+      deviations_positive = deviations_positive,
+      deviations_negative = deviations_negative,
+      objective_value = result$objval
+    )
+  )
 }
