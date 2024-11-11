@@ -66,7 +66,7 @@ optimize_release <- function(inflow, demand, constraints) {
   idx_d_plus <- (2 * T + 1):(3 * T)
   idx_d_minus <- (3 * T + 1):(4 * T)
 
-  # 1. Continuity Equations
+  # Continuity Equations
   for (t in 1:T) {
     row <- rep(0, num_vars)
     row[idx_S[t]] <- 1  # S_t
@@ -85,7 +85,7 @@ optimize_release <- function(inflow, demand, constraints) {
     constraints_rhs <- c(constraints_rhs, rhs)
   }
 
-  # 3. Storage Limits (Lower Bounds)
+  # Storage Limits (Lower Bounds)
   for (t in 1:T) {
     row <- rep(0, num_vars)
     row[idx_S[t]] <- 1  # S_t
@@ -95,7 +95,7 @@ optimize_release <- function(inflow, demand, constraints) {
     constraints_rhs <- c(constraints_rhs, constraints$S_min[t])
   }
 
-  # 4. Storage Limits (Upper Bounds)
+  # Storage Limits (Upper Bounds)
   for (t in 1:T) {
     row <- rep(0, num_vars)
     row[idx_S[t]] <- 1  # S_t
@@ -109,6 +109,24 @@ optimize_release <- function(inflow, demand, constraints) {
   for (t in 1:T) {
     row <- rep(0, num_vars)
     row[idx_R[t]] <- 1  # R_t
+    constraints_matrix <- rbind(constraints_matrix, row)
+    constraints_direction <- c(constraints_direction, ">=")
+    constraints_rhs <- c(constraints_rhs, 0)
+  }
+
+  # Non-negativity constraints for Deviations variables
+  # d_t^+ >= 0
+  for (t in 1:T) {
+    row <- rep(0, num_vars)
+    row[idx_d_plus[t]] <- 1  # d_t^+
+    constraints_matrix <- rbind(constraints_matrix, row)
+    constraints_direction <- c(constraints_direction, ">=")
+    constraints_rhs <- c(constraints_rhs, 0)
+  }
+  # d_t^- >= 0
+  for (t in 1:T) {
+    row <- rep(0, num_vars)
+    row[idx_d_minus[t]] <- 1  # d_t^-
     constraints_matrix <- rbind(constraints_matrix, row)
     constraints_direction <- c(constraints_direction, ">=")
     constraints_rhs <- c(constraints_rhs, 0)
