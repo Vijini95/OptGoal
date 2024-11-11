@@ -150,4 +150,13 @@ optimize_release <- function(inflow, demand, constraints) {
   optimized_storage <- result$solution[idx_S]
   deviations_positive <- result$solution[idx_d_plus]
   deviations_negative <- result$solution[idx_d_minus]
+
+  # Return the results
+  return(list(
+    release = optimized_release,
+    storage = optimized_storage,
+    deviations_positive = deviations_positive,
+    deviations_negative = deviations_negative,
+    objective_value = result$objval
+  ))
 }
