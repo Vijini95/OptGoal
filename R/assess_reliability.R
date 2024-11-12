@@ -24,4 +24,9 @@ assess_reliability <- function(release, demand) {
 
   # Volume-Based Reliability
   volume_reliability <- sum(release) / sum(demand)
+
+  # Compile results
+  reliability_results <- data.frame(time_reliability = time_reliability, volume_reliability = volume_reliability)
+
+  return(reliability_results)
 }
