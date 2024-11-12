@@ -32,4 +32,4 @@ Optimum_release <- optimize_release(inflow, demand, constraints)
 
 ## Next Steps
 
-For the remainder of the semester, I plan to complete the implementation and optimization of the `optimize_release` and `assess_reliability` functions, write comprehensive documentation with detailed descriptions and usage examples for each function, and use the `testthat` package to write unit tests, improving the package's reliability.
+For the remainder of the semester, I plan to complete the implementation and optimization of the `optimize_release` and `assess_reliability` functions, write comprehensive documentation with detailed descriptions and usage examples for each function, use the `testthat` package to write unit tests, improving the package's reliability, and make vignette.
