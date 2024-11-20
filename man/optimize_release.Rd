@@ -28,10 +28,10 @@ considering time-varying minimum and maximum storage limits.
 \examples{
 \dontrun{
 # Example usage
-inflow <- c(100, 120, 90, 110, 95)
-demand <- c(80, 85, 75, 90, 80)
-S_min_vector <- c(200, 220, 240, 260, 280)
-S_max_vector <- c(1000, 980, 960, 940, 920)
+inflow <- c(7569, 6383, 8472, 13084, 9689, 4301, 399, 2896, 2723, 7239, 14849, 13304)
+demand <- c(1586.72, 1057.81, 1586.72, 1057.81, 1586.72, 1057.81, 1586.72, 1057.81,1586.72, 1057.81, 1586.72, 1057.81)
+S_min_vector <- rep(2824.55, time=12)
+S_max_vector <- rep(26864.25, time=12)
 constraints <- list(
   initial_storage = 500,
   S_min = S_min_vector,
