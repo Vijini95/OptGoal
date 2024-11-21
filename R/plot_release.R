@@ -8,7 +8,7 @@
 #'
 #' @return A ggplot object displaying the release over time.
 #' @examples
-#' Example usage
+#' # Example usage
 #' inflow <- c(7569, 6383, 8472, 13084, 9689,
 #' 4301, 399, 2896, 2723, 7239, 14849, 13304)
 #' demand <- c(1586.72, 1057.81, 1586.72, 1057.81, 1586.72,
