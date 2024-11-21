@@ -19,8 +19,6 @@ This function assesses the reliability of the release strategies against demand,
 calculating time-based reliability, and volume-based reliability.
 }
 \examples{
-\dontrun{
 reliability_results <- assess_reliability(result$release, demand)
 print(reliability_results)
-}
 }

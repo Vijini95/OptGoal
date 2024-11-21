@@ -8,10 +8,8 @@
 #'
 #' @return A data frame containing the reliability metrics.
 #' @examples
-#' \dontrun{
 #' reliability_results <- assess_reliability(result$release, demand)
 #' print(reliability_results)
-#' }
 #' @export
 assess_reliability <- function(release, demand) {
   if (length(release) != length(demand)) {
