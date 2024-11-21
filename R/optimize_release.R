@@ -14,7 +14,6 @@
 #'
 #' @return A list containing optimized release schedules, storage levels, deviations, and the objective value.
 #' @examples
-#' \dontrun{
 #' # Example usage
 #' inflow <- c(7569, 6383, 8472, 13084, 9689,
 #' 4301, 399, 2896, 2723, 7239, 14849, 13304)
@@ -28,7 +27,6 @@
 #'   S_max = S_max_vector
 #' )
 #' result <- optimize_release(inflow, demand, constraints)
-#' }
 #' @import lpSolve
 #' @export
 optimize_release <- function(inflow, demand, constraints) {
