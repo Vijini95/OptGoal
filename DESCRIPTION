@@ -8,7 +8,9 @@ URL: https://github.com/Vijini95/OptGoal
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
-Imports: lpSolve
+Imports: 
+      lpSolve,
+      ggplot2
 Suggests: 
     knitr,
     rmarkdown
