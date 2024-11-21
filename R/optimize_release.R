@@ -38,23 +38,26 @@ optimize_release <- function(inflow, demand, constraints) {
   if (length(demand) != T) {
     stop("Inflow and demand vectors must be of the same length.")
   }
-  if (length(constraints$S_min) != T ||
-      length(constraints$S_max) != T) {
+  if (length(constraints$S_min) != T || length(constraints$S_max) != T) {
     stop("S_min and S_max must be vectors of length equal to the number of time periods.")
   }
   if (any(constraints$S_min > constraints$S_max)) {
     stop("Each element of S_min must be less than or equal to the corresponding element in S_max.")
   }
 
+
   # Decision variables for each time period:
   # R_t (release), S_t (storage), d_t^+, d_t^-
   num_vars <- T * 4  # Total number of variables
 
   # Objective function coefficients
-  obj_coeffs <- c(rep(0, T * 2), rep(1, T), rep(1, T))
+  obj_coeffs <- c(
+    rep(0, T * 2),                 # Zero coefficients for R_t and S_t
+    rep(1, T),                     # Weights for d_t^+
+    rep(1, T)                      # Weights for d_t^-
+  )
 
   # Initialize constraints matrices
-  total_constraints <- T * 4       # Continuity, Goal, Storage Limits (lower and upper)
   constraints_matrix <- matrix(0, nrow = 0, ncol = num_vars)
   constraints_direction <- character(0)
   constraints_rhs <- numeric(0)
@@ -65,46 +68,56 @@ optimize_release <- function(inflow, demand, constraints) {
   idx_d_plus <- (2 * T + 1):(3 * T)
   idx_d_minus <- (3 * T + 1):(4 * T)
 
-  # Continuity Equations
+  # 1. Storage Continuity Equations
   for (t in 1:T) {
     row <- rep(0, num_vars)
-    row[idx_S[t]] <- 1  # S_t
-
     if (t == 1) {
-      # S_t = S_0 + I_t - R_t
-      rhs <- constraints$initial_storage + inflow[t]
+      # For t = 1: S_0 + I_1 - R_1 - S_1 = 0
+      row[idx_S[t]] <- -1       # -S_1
+      row[idx_R[t]] <- -1       # -R_1
+      rhs <- -constraints$initial_storage - inflow[t]
     } else {
-      row[idx_S[t - 1]] <- -1  # -S_{t-1}
-      rhs <- inflow[t]
+      # For t > 1: S_{t-1} + I_t - R_t - S_t = 0
+      row[idx_S[t - 1]] <- 1    # S_{t-1}
+      row[idx_S[t]] <- -1       # -S_t
+      row[idx_R[t]] <- -1       # -R_t
+      rhs <- -inflow[t]
     }
-    row[idx_R[t]] <- -1  # -R_t
-
     constraints_matrix <- rbind(constraints_matrix, row)
     constraints_direction <- c(constraints_direction, "=")
     constraints_rhs <- c(constraints_rhs, rhs)
   }
 
-  # Storage Limits (Lower Bounds)
+  # 2. Goal Constraints
+  for (t in 1:T) {
+    row <- rep(0, num_vars)
+    row[idx_R[t]] <- 1          # R_t
+    row[idx_d_plus[t]] <- 1     # +d_t^+
+    row[idx_d_minus[t]] <- -1   # -d_t^-
+    constraints_matrix <- rbind(constraints_matrix, row)
+    constraints_direction <- c(constraints_direction, "=")
+    constraints_rhs <- c(constraints_rhs, demand[t])
+  }
+
+  # 3. Storage Limits (Lower Bounds)
   for (t in 1:T) {
     row <- rep(0, num_vars)
     row[idx_S[t]] <- 1  # S_t
-
     constraints_matrix <- rbind(constraints_matrix, row)
     constraints_direction <- c(constraints_direction, ">=")
     constraints_rhs <- c(constraints_rhs, constraints$S_min[t])
   }
 
-  # Storage Limits (Upper Bounds)
+  # 4. Storage Limits (Upper Bounds)
   for (t in 1:T) {
     row <- rep(0, num_vars)
     row[idx_S[t]] <- 1  # S_t
-
     constraints_matrix <- rbind(constraints_matrix, row)
     constraints_direction <- c(constraints_direction, "<=")
     constraints_rhs <- c(constraints_rhs, constraints$S_max[t])
   }
 
-  # Non-negativity constraints for release
+  # 5. Release Bounds (Non-negativity)
   for (t in 1:T) {
     row <- rep(0, num_vars)
     row[idx_R[t]] <- 1  # R_t
@@ -113,7 +126,7 @@ optimize_release <- function(inflow, demand, constraints) {
     constraints_rhs <- c(constraints_rhs, 0)
   }
 
-  # Non-negativity constraints for Deviations variables
+  # 6. Deviations Non-negativity
   # d_t^+ >= 0
   for (t in 1:T) {
     row <- rep(0, num_vars)
@@ -122,7 +135,6 @@ optimize_release <- function(inflow, demand, constraints) {
     constraints_direction <- c(constraints_direction, ">=")
     constraints_rhs <- c(constraints_rhs, 0)
   }
-
   # d_t^- >= 0
   for (t in 1:T) {
     row <- rep(0, num_vars)
@@ -142,6 +154,7 @@ optimize_release <- function(inflow, demand, constraints) {
   )
 
   if (result$status != 0) {
+    print(paste("LP Status Code:", result$status))
     stop("Optimization did not find a feasible solution.")
   }
 
@@ -152,13 +165,12 @@ optimize_release <- function(inflow, demand, constraints) {
   deviations_negative <- result$solution[idx_d_minus]
 
   # Return the results
-  return(
-    list(
-      release = optimized_release,
-      storage = optimized_storage,
-      deviations_positive = deviations_positive,
-      deviations_negative = deviations_negative,
-      objective_value = result$objval
+  return(list(
+    release = optimized_release,
+    storage = optimized_storage,
+    deviations_positive = deviations_positive,
+    deviations_negative = deviations_negative,
+    objective_value = result$objval
     )
   )
 }
