@@ -19,6 +19,9 @@ This function assesses the reliability of the release strategies against demand,
 calculating time-based reliability, and volume-based reliability.
 }
 \examples{
+release <- result$release
+demand <- c(1586.72, 1057.81, 1586.72, 1057.81, 1586.72,
+1057.81, 1586.72, 1057.81, 1586.72, 1057.81, 1586.72, 1057.81)
 reliability_results <- assess_reliability(release, demand)
 print(reliability_results)
 }

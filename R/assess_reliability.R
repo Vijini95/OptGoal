@@ -8,6 +8,9 @@
 #'
 #' @return A data frame containing the reliability metrics.
 #' @examples
+#' release <- result$release
+#' demand <- c(1586.72, 1057.81, 1586.72, 1057.81, 1586.72,
+#' 1057.81, 1586.72, 1057.81, 1586.72, 1057.81, 1586.72, 1057.81)
 #' reliability_results <- assess_reliability(release, demand)
 #' print(reliability_results)
 #' @export
