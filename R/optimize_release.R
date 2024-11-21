@@ -27,6 +27,7 @@
 #'   S_max = S_max_vector
 #' )
 #' result <- optimize_release(inflow, demand, constraints)
+#' result
 #' @import lpSolve
 #' @export
 optimize_release <- function(inflow, demand, constraints) {

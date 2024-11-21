@@ -39,4 +39,5 @@ constraints <- list(
   S_max = S_max_vector
 )
 result <- optimize_release(inflow, demand, constraints)
+result
 }
