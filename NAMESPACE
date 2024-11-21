@@ -2,4 +2,6 @@
 
 export(assess_reliability)
 export(optimize_release)
+export(plot_release)
+import(ggplot2)
 import(lpSolve)
