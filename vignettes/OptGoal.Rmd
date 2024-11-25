@@ -1,6 +1,8 @@
 ---
 title: "OptGoal"
-output: rmarkdown::html_vignette
+author: "vijini"
+date: "2024-11-25"
+output: pdf_document
 vignette: >
   %\VignetteIndexEntry{OptGoal}
   %\VignetteEngine{knitr::rmarkdown}
