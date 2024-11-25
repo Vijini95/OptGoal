@@ -3,5 +3,7 @@
 export(assess_reliability)
 export(optimize_release)
 export(plot_release)
+export(plot_release_vs_demand)
 import(ggplot2)
 import(lpSolve)
+importFrom(reshape2,melt)
