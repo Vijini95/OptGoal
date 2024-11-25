@@ -60,7 +60,7 @@ plot_release <- function(release, months = NULL) {
     ggplot2::labs(
       title = "Release Over Time",
       x = "Month",
-      y = "Release Volume (m^³)"
+      y = "Release Volume (Cubic meters)"
     )
 
   return(plot)
