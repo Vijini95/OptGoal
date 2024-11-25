@@ -22,3 +22,8 @@ Water reservoir management is one of the important topics in operations research
 While there are existing packages that address water release optimization, focus solely on linear programming 
 methods without incorporating goal programming. This package fills this gap by providing tools for goal programming optimization and reliability assessment in water reservoir management. Furthermore, the package includes visualization functionalities to effectively display 
 input data and output results, for better interpretation and decision-making. 
+
+```{r}
+
+```
+
