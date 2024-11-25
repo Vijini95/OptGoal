@@ -91,8 +91,8 @@ optimize_release <- function(inflow, demand, constraints) {
   for (t in 1:T) {
     row <- rep(0, num_vars)
     row[idx_R[t]] <- 1          # R_t
-    row[idx_d_plus[t]] <- 1     # +d_t^+
-    row[idx_d_minus[t]] <- -1   # -d_t^-
+    row[idx_d_plus[t]] <- -1     # +d_t^+
+    row[idx_d_minus[t]] <- 1   # -d_t^-
     constraints_matrix <- rbind(constraints_matrix, row)
     constraints_direction <- c(constraints_direction, "=")
     constraints_rhs <- c(constraints_rhs, demand[t])
