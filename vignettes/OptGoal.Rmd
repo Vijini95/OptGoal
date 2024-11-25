@@ -2,7 +2,7 @@
 title: "OptGoal"
 author: "Vijini Lakmini, Rathnayake Mudiyanselage"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output: html_document
 vignette: >
   %\VignetteIndexEntry{An Introduction to OptGoal}
   %\VignetteEngine{knitr::rmarkdown}
