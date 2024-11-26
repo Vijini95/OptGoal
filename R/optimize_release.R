@@ -18,8 +18,8 @@
 #' data(reservoir_data)
 #' constraints <- list(
 #'   initial_storage = 500,
-#'   S_min = S_min_vector,
-#'   S_max = S_max_vector
+#'   S_min = S_min
+#'   S_max = S_max
 #' )
 #' result <- optimize_release(
 #'   inflow = reservoir_data$Inflow,
