@@ -43,3 +43,8 @@ plot_release(result$release)
 # Run the plot_release_vs_demand function
 plot_release_vs_demand(result$release, demand)
 ```
+## References
+
+[1] http://www.pgis.pdn.ac.lk/rescon2021/abstracts/ICTMS/44.pdf
+
+[2] https://r-pkgs.org/
