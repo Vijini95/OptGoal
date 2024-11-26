@@ -38,4 +38,5 @@ result <- optimize_release(
   demand = reservoir_data$Demand,
   constraints = constraints
 )
+result
 }

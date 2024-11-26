@@ -26,6 +26,7 @@
 #'   demand = reservoir_data$Demand,
 #'   constraints = constraints
 #' )
+#' result
 #' @import lpSolve
 #' @export
 optimize_release <- function(inflow, demand, constraints) {
