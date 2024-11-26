@@ -24,12 +24,27 @@ This is a basic example which shows you how to solve a common problem:
 
 ``` r
 library(OptGoal)
-library(lpSolve)
+
+inflow <- c(7569, 6383, 8472, 13084, 9689, 4301, 399, 2896, 2723,  7239,14849, 13304)
+demand <- c(11586.72, 4057.81, 3586.72, 10057.81,
+3456.72, 1057.81, 6586.72, 2057.81, 1096.72, 1057.81, 1186.72, 1808.81)
+S_min_vector <- rep(2824.55, time=12)
+S_max_vector <- rep(26864.25, time=12)
+constraints <- list(initial_storage = 500, S_min = S_min_vector, S_max = S_max_vector)
 
 # Run the optimize_release function
-Optimum_release <- optimize_release(inflow, demand, constraints)
+result <- optimize_release(inflow, demand, constraints)
+
+# Run the assess_reliability function
+reliability_results <- assess_reliability(result$release, demand)
+
+# Run the plot_release function
+plot_release(result$release)
+
+# Run the plot_release_vs_demand function
+plot_release_vs_demand(result$release, demand)
 ```
 
-## Next Steps
+## Reference
 
-For the remainder of the semester, I plan to complete the implementation and optimization of the `optimize_release` and `assess_reliability` functions, write comprehensive documentation with detailed descriptions and usage examples for each function, use the `testthat` package to write unit tests, improving the package's reliability, and make vignette.
+
