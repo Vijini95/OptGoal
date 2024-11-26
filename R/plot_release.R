@@ -53,7 +53,7 @@ plot_release <- function(release, months = NULL) {
   )
 
   plot <- ggplot2::ggplot(data, ggplot2::aes(x = .data$Time, y = .data$Release)) +
-    ggplot2::geom_line(color = "red", size = 1) +
+    ggplot2::geom_line(color = "red", linewidth = 1) +
     ggplot2::geom_point(color = "red") +
     ggplot2::scale_x_continuous(breaks = time, labels = time_labels) +
     ggplot2::theme_minimal() +
