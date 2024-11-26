@@ -43,7 +43,3 @@ plot_release(result$release)
 # Run the plot_release_vs_demand function
 plot_release_vs_demand(result$release, demand)
 ```
-
-## Reference
-
-
