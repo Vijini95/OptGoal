@@ -21,11 +21,11 @@ library(OptGoal)
 ```
 ## Introduction
 
-Water reservoir management is one of the important topics in operations research due to its practical necessity. There are many techniques available in the literature of operations research that help in decision making of water reservoir management. The main objective of this study is to create a R package by implementing goal programming to optimize water release. 
+Water reservoir management is one of the important topics in operations research due to its practical necessity. There are many techniques available in the literature of operations research that help in the decision-making of water reservoir management. The main objective of this study is to create a R package by implementing goal programming to optimize water release. 
 
 While there are existing packages that address water release optimization, focus solely on linear programming 
 methods without incorporating goal programming. This package fills this gap by providing tools for goal programming optimization and reliability assessment in water reservoir management. Furthermore, the package includes visualization functionalities to effectively display 
-input data and output results, for better interpretation and decision-making. 
+input data and output results, for better interpretation and decision-making. This package is based on a case study. 
 
 ## Model
 
@@ -66,6 +66,8 @@ $$d_i^- \geq 0 $$
 
 ## Data (1996 - 2020)
 
+Data collected from 1996 to 2020. In this model, we use the average of the data.
+
 | Month    | Inflow ($m^3$) | Demand ($m^3$)   | Minimum_Storage ($m^3$) | Maximum_Storage ($m^3$) |
 |---------|-------|--------------|----------------- |----------------|
 | January   | 7569  | 11586.72     | 2824.55 | 26864.25 |
@@ -84,7 +86,7 @@ $$d_i^- \geq 0 $$
 
 ## optimize_release function
 
-This R function created by including relevant inputs and defining the constraints that describes under the Model. This function provides the following outputs:
+This R function was created by including relevant inputs and defining the constraints that describe the model. This function provides the following outputs:
 
 1. Monthly release ($R_t$)
 2. Monthly storage ($S_t$)
@@ -92,7 +94,7 @@ This R function created by including relevant inputs and defining the constraint
 4. Negative deviation ($d_i^-$) 
 5. Objective value
 
-Here, we input data manually. Also, you can define data and call it and run. Required library: lpSolve.
+Required library: lpSolve.
 
 #### R code (optimize_release.R)
 ```{r}
@@ -251,9 +253,22 @@ result <- optimize_release(inflow, demand, constraints)
 result
 ```
 
+Here, we manually enter the data. Additionally, data can be defined as follows, called, and executed.
+```{r}
+reservoir_data <- data.frame(
+  Month = month.abb,
+  Inflow = c(7569, 6383, 8472, 13084, 9689, 4301, 399, 2896, 2723, 7239, 14849, 13304),
+  Demand = c(11586.72, 4057.81, 3586.72, 10057.81, 3456.72, 1057.81, 6586.72, 2057.81, 1096.72, 1057.81, 1186.72, 1808.81),
+  S_min = rep(2824.55, 12),
+  S_max = rep(26864.25, 12)
+)
+reservoir_data
+```
+
+
 ## assess_reliability function
 
-This R function created by including demand and release which obtained by previous code. This function provides the following outputs:
+This R function was created by including demand and release, which were obtained by previous code. This function provides the following outputs:
 
 1. Time reliability
 2. Volume reliability
@@ -292,7 +307,7 @@ reliability_results
 
 ## plot_release function
 
-This function provides graphical representation of the release in order to months. x - axis denotes the months and y - axis denotes release in cubic meters. Required library: ggplot2.
+This function provides a graphical representation of the release in order to months. x-axis denotes the months, and y-axis denotes release in cubic meters. Required library: ggplot2.
 
 #### R code (plot_release.R)
 ```{r}
@@ -351,7 +366,7 @@ plot_release(release)
 
 ## plot_release_vs_demand function
 
-This function provides graphical representation of the release and demand in order to months. x - axis denotes the months and y - axis denotes volume in cubic meters. Required library: ggplot2.
+This function provides a graphical representation of the release and demand in order to months. x-axis denotes the months, and y-axis denotes volume in cubic meters. Required library: ggplot2.
 
 #### R code (plot_release_vs_demand.R)
 ```{r}
@@ -419,4 +434,14 @@ result <- optimize_release(inflow, demand, constraints)
 release <- result$release
 plot_release_vs_demand(release, demand)
 ```
+
+## Advantages
+
+Finding a workable solution in a linear programming model is impossible if the data does not meet the restrictions. However, goal programming allows us to identify the ways in which our solution differs from the workable option. Therefore, we may effectively tackle our problem by utilizing this model in conjunction with the R program.
+
+## References
+
+[1] http://www.pgis.pdn.ac.lk/rescon2021/abstracts/ICTMS/44.pdf
+
+[2] https://r-pkgs.org/
 
