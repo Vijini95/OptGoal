@@ -92,7 +92,7 @@ This R function created by including relevant inputs and defining the constraint
 4. Negative deviation ($d_i^-$) 
 5. Objective value
 
-Required library: lpSolve.
+Here, we input data manually. Also, you can define data and call it and run. Required library: lpSolve.
 
 #### R code (optimize_release.R)
 ```{r}
