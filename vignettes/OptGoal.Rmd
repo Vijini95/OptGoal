@@ -310,7 +310,7 @@ This function provides a graphical representation of the release in order to mon
 
 #### R code (plot_release.R)
 
-```{r plot_release, fig.width=8, fig.height=6, dpi=300}
+```{r plot_release, fig.width=5, fig.height=3, dpi=120}
 library(ggplot2)
 plot_release <- function(release, months = NULL) {
   if (!is.numeric(release)) {
@@ -370,7 +370,7 @@ This function provides a graphical representation of the release and demand in o
 
 #### R code (plot_release_vs_demand.R)
 
-```{r plot_release, fig.width=8, fig.height=6, dpi=300}
+```{r plot_release_vs_demand, fig.width=5, fig.height=3, dpi=120}
 library(ggplot2)
 plot_release_vs_demand <- function(release, demand, months = NULL) {
   if (!is.numeric(release)) {
