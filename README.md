@@ -27,9 +27,9 @@ library(OptGoal)
 
 inflow <- c(7569, 6383, 8472, 13084, 9689, 4301, 399, 2896, 2723, 7239,14849, 13304)
 demand <- c(11586.72, 4057.81, 3586.72, 10057.81, 3456.72, 1057.81, 6586.72, 2057.81, 1096.72, 1057.81, 1186.72, 1808.81)
-S_min_vector <- rep(2824.55, time=12)
-S_max_vector <- rep(26864.25, time=12)
-constraints <- list(initial_storage = 500, S_min = S_min_vector, S_max = S_max_vector)
+S_min <- rep(2824.55, time=12)
+S_max <- rep(26864.25, time=12)
+constraints <- list(initial_storage = 500, S_min = S_min, S_max = S_max)
 
 # Run the optimize_release function
 result <- optimize_release(inflow, demand, constraints)
