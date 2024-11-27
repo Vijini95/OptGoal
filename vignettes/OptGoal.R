@@ -1,0 +1,320 @@
+## ----include = FALSE----------------------------------------------------------
+knitr::opts_chunk$set(
+   collapse = TRUE)
+
+## ----setup, echo = FALSE------------------------------------------------------
+library(OptGoal)
+
+## -----------------------------------------------------------------------------
+library(lpSolve)
+optimize_release <- function(inflow, demand, constraints) {
+  T <- length(inflow)  # Number of time periods
+
+  # Input validation
+  if (length(demand) != T) {
+    stop("Inflow and demand vectors must be of the same length.")
+  }
+  if (length(constraints$S_min) != T || length(constraints$S_max) != T) {
+    stop("S_min and S_max must be vectors of length equal to the number of time periods.")
+  }
+  if (any(constraints$S_min > constraints$S_max)) {
+    stop("Each element of S_min must be less than or equal to the corresponding element in S_max.")
+  }
+
+
+  # Decision variables for each time period:
+  # R_t (release), S_t (storage), d_t^+, d_t^-
+  num_vars <- T * 4  # Total number of variables
+
+  # Objective function coefficients
+  obj_coeffs <- c(
+    rep(0, T * 2),                 # Zero coefficients for R_t and S_t
+    rep(1, T),                     # Weights for d_t^+
+    rep(1, T)                      # Weights for d_t^-
+  )
+
+  # Initialize constraints matrices
+  constraints_matrix <- matrix(0, nrow = 0, ncol = num_vars)
+  constraints_direction <- character(0)
+  constraints_rhs <- numeric(0)
+
+  # Constraint indices
+  idx_R <- 1:T
+  idx_S <- (T + 1):(2 * T)
+  idx_d_plus <- (2 * T + 1):(3 * T)
+  idx_d_minus <- (3 * T + 1):(4 * T)
+
+  # 1. Storage Continuity Equations
+  for (t in 1:T) {
+    row <- rep(0, num_vars)
+    if (t == 1) {
+      # For t = 1: S_0 + I_1 - R_1 - S_1 = 0
+      row[idx_S[t]] <- -1       # -S_1
+      row[idx_R[t]] <- -1       # -R_1
+      rhs <- -constraints$initial_storage - inflow[t]
+    } else {
+      # For t > 1: S_{t-1} + I_t - R_t - S_t = 0
+      row[idx_S[t - 1]] <- 1    # S_{t-1}
+      row[idx_S[t]] <- -1       # -S_t
+      row[idx_R[t]] <- -1       # -R_t
+      rhs <- -inflow[t]
+    }
+    constraints_matrix <- rbind(constraints_matrix, row)
+    constraints_direction <- c(constraints_direction, "=")
+    constraints_rhs <- c(constraints_rhs, rhs)
+  }
+
+  # 2. Goal Constraints
+  for (t in 1:T) {
+    row <- rep(0, num_vars)
+    row[idx_R[t]] <- 1          # R_t
+    row[idx_d_plus[t]] <- -1     # +d_t^+
+    row[idx_d_minus[t]] <- 1   # -d_t^-
+    constraints_matrix <- rbind(constraints_matrix, row)
+    constraints_direction <- c(constraints_direction, "=")
+    constraints_rhs <- c(constraints_rhs, demand[t])
+  }
+
+  # 3. Storage Limits (Lower Bounds)
+  for (t in 1:T) {
+    row <- rep(0, num_vars)
+    row[idx_S[t]] <- 1  # S_t
+    constraints_matrix <- rbind(constraints_matrix, row)
+    constraints_direction <- c(constraints_direction, ">=")
+    constraints_rhs <- c(constraints_rhs, constraints$S_min[t])
+  }
+
+  # 4. Storage Limits (Upper Bounds)
+  for (t in 1:T) {
+    row <- rep(0, num_vars)
+    row[idx_S[t]] <- 1  # S_t
+    constraints_matrix <- rbind(constraints_matrix, row)
+    constraints_direction <- c(constraints_direction, "<=")
+    constraints_rhs <- c(constraints_rhs, constraints$S_max[t])
+  }
+
+  # 5. Release Bounds (Non-negativity)
+  for (t in 1:T) {
+    row <- rep(0, num_vars)
+    row[idx_R[t]] <- 1  # R_t
+    constraints_matrix <- rbind(constraints_matrix, row)
+    constraints_direction <- c(constraints_direction, ">=")
+    constraints_rhs <- c(constraints_rhs, 0)
+  }
+
+  # 6. Deviations Non-negativity
+  # d_t^+ >= 0
+  for (t in 1:T) {
+    row <- rep(0, num_vars)
+    row[idx_d_plus[t]] <- 1  # d_t^+
+    constraints_matrix <- rbind(constraints_matrix, row)
+    constraints_direction <- c(constraints_direction, ">=")
+    constraints_rhs <- c(constraints_rhs, 0)
+  }
+  # d_t^- >= 0
+  for (t in 1:T) {
+    row <- rep(0, num_vars)
+    row[idx_d_minus[t]] <- 1  # d_t^-
+    constraints_matrix <- rbind(constraints_matrix, row)
+    constraints_direction <- c(constraints_direction, ">=")
+    constraints_rhs <- c(constraints_rhs, 0)
+  }
+
+  # Solve the optimization problem
+  result <- lp(
+    direction = "min",
+    objective.in = obj_coeffs,
+    const.mat = constraints_matrix,
+    const.dir = constraints_direction,
+    const.rhs = constraints_rhs
+  )
+
+  if (result$status != 0) {
+    print(paste("LP Status Code:", result$status))
+    stop("Optimization did not find a feasible solution.")
+  }
+
+  # Extract the optimized release and storage
+  optimized_release <- result$solution[idx_R]
+  optimized_storage <- result$solution[idx_S]
+  deviations_positive <- result$solution[idx_d_plus]
+  deviations_negative <- result$solution[idx_d_minus]
+
+  # Return the results
+  return(list(
+    release = optimized_release,
+    storage = optimized_storage,
+    deviations_positive = deviations_positive,
+    deviations_negative = deviations_negative,
+    objective_value = result$objval
+    )
+  )
+}
+#Run the example
+inflow <- c(7569, 6383, 8472, 13084, 9689, 4301, 399, 2896, 2723, 7239,14849, 13304)
+demand <- c(11586.72, 4057.81, 3586.72, 10057.81,
+3456.72, 1057.81, 6586.72, 2057.81, 1096.72, 1057.81, 1186.72, 1808.81)
+S_min_vector <- rep(2824.55, time=12)
+S_max_vector <- rep(26864.25, time=12)
+constraints <- list(initial_storage = 500, S_min = S_min_vector, S_max = S_max_vector)
+result <- optimize_release(inflow, demand, constraints)
+result
+
+## -----------------------------------------------------------------------------
+reservoir_data <- data.frame(
+  Month = month.abb,
+  Inflow = c(7569, 6383, 8472, 13084, 9689, 4301, 399, 2896, 2723, 7239, 14849, 13304),
+  Demand = c(11586.72, 4057.81, 3586.72, 10057.81, 3456.72, 1057.81, 6586.72, 2057.81, 1096.72, 1057.81, 1186.72, 1808.81),
+  S_min = rep(2824.55, 12),
+  S_max = rep(26864.25, 12)
+)
+reservoir_data
+
+## -----------------------------------------------------------------------------
+assess_reliability <- function(release, demand) {
+  if (length(release) != length(demand)) {
+    stop("Release and demand vectors must be of the same length.")
+  }
+  T <- length(release)
+
+  # Time-Based Reliability
+  time_reliability <- sum(release >= demand) / T
+
+  # Volume-Based Reliability
+  volume_reliability <- sum(release) / sum(demand)
+
+  # Compile results
+  reliability_results <- data.frame(time_reliability = time_reliability, volume_reliability = volume_reliability)
+
+  return(reliability_results)
+}
+#Run the example
+inflow <- c(7569, 6383, 8472, 13084, 9689, 4301, 399, 2896, 2723, 7239,14849, 13304)
+demand <- c(11586.72, 4057.81, 3586.72, 10057.81,
+3456.72, 1057.81, 6586.72, 2057.81, 1096.72, 1057.81, 1186.72, 1808.81)
+S_min_vector <- rep(2824.55, time=12)
+S_max_vector <- rep(26864.25, time=12)
+constraints <- list(initial_storage = 500, S_min = S_min_vector, S_max = S_max_vector)
+result <- optimize_release(inflow, demand, constraints)
+release <- result$release
+reliability_results <- assess_reliability(release, demand)
+reliability_results
+
+## -----------------------------------------------------------------------------
+library(ggplot2)
+plot_release <- function(release, months = NULL) {
+  if (!is.numeric(release)) {
+    stop("release must be a numeric vector.")
+  }
+
+  time <- seq_along(release)
+
+  # Assign default month names if appropriate
+  if (is.null(months) && length(release) == 12) {
+    months <- month.abb
+  }
+
+  # Use months if provided
+  if (!is.null(months)) {
+    if (length(months) != length(release)) {
+      stop("Length of 'months' must match length of 'release'.")
+    }
+    time_labels <- months
+  } else {
+    time_labels <- time
+  }
+
+  data <- data.frame(
+    Time = time,
+    Release = release
+  )
+
+  plot <- ggplot2::ggplot(data, ggplot2::aes(x = .data$Time, y = .data$Release)) +
+    ggplot2::geom_line(color = "red", linewidth = 1) +
+    ggplot2::geom_point(color = "red") +
+    ggplot2::scale_x_continuous(breaks = time, labels = time_labels) +
+    ggplot2::theme_minimal() +
+    ggplot2::labs(
+      title = "Release Over Time",
+      x = "Month",
+      y = "Release Volume (Cubic meters)"
+    )
+
+  return(plot)
+}
+#Run the example
+inflow <- c(7569, 6383, 8472, 13084, 9689, 4301, 399, 2896, 2723, 7239,14849, 13304)
+demand <- c(11586.72, 4057.81, 3586.72, 10057.81,
+3456.72, 1057.81, 6586.72, 2057.81, 1096.72, 1057.81, 1186.72, 1808.81)
+S_min_vector <- rep(2824.55, time=12)
+S_max_vector <- rep(26864.25, time=12)
+constraints <- list(initial_storage = 500, S_min = S_min_vector, S_max = S_max_vector)
+result <- optimize_release(inflow, demand, constraints)
+release <- result$release
+plot_release(release)
+
+## -----------------------------------------------------------------------------
+library(ggplot2)
+plot_release_vs_demand <- function(release, demand, months = NULL) {
+  if (!is.numeric(release)) {
+    stop("release must be a numeric vector.")
+  }
+  if (!is.numeric(demand)) {
+    stop("demand must be a numeric vector.")
+  }
+  if (length(release) != length(demand)) {
+    stop("release and demand must be of the same length.")
+  }
+
+  time <- seq_along(release)
+
+  # Assign default month names if appropriate
+  if (is.null(months) && length(release) == 12) {
+    months <- month.abb  # Built-in vector of abbreviated month names
+  }
+
+  # Use months if provided
+  if (!is.null(months)) {
+    if (length(months) != length(release)) {
+      stop("Length of 'months' must match length of 'release' and 'demand'.")
+    }
+    time_labels <- months
+  } else {
+    time_labels <- time
+  }
+
+  data <- data.frame(
+    Time = time,
+    Release = release,
+    Demand = demand
+  )
+
+  # Melt data for plotting
+  data_melted <- reshape2::melt(data, id.vars = "Time")
+
+  # Create the plot
+  plot <- ggplot2::ggplot(data_melted, ggplot2::aes(x = .data$Time, y = .data$value, color = .data$variable)) +
+    ggplot2::geom_line(linewidth = 1) +
+    ggplot2::geom_point() +
+    ggplot2::scale_x_continuous(breaks = time, labels = time_labels) +
+    ggplot2::theme_minimal() +
+    ggplot2::labs(
+      title = "Release vs. Demand Over Time",
+      x = "Month",
+      y = "Volume (Cubic meters)",
+      color = "Legend"
+    )
+
+  return(plot)
+}
+#Run the example
+inflow <- c(7569, 6383, 8472, 13084, 9689, 4301, 399, 2896, 2723, 7239,14849, 13304)
+demand <- c(11586.72, 4057.81, 3586.72, 10057.81,
+3456.72, 1057.81, 6586.72, 2057.81, 1096.72, 1057.81, 1186.72, 1808.81)
+S_min_vector <- rep(2824.55, time=12)
+S_max_vector <- rep(26864.25, time=12)
+constraints <- list(initial_storage = 500, S_min = S_min_vector, S_max = S_max_vector)
+result <- optimize_release(inflow, demand, constraints)
+release <- result$release
+plot_release_vs_demand(release, demand)
+
