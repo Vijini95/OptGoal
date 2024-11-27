@@ -15,7 +15,7 @@ You can install the development version of **OptGoal** from GitHub with:
 install.packages("devtools")
 
 # Install OptGoal from GitHub
-devtools::install_github("Vijini95/OptGoal")
+devtools::install_github("Vijini95/OptGoal", build_vignettes = TRUE)
 ```
 
 ## Example
