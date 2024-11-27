@@ -67,7 +67,7 @@ plot_release_vs_demand <- function(release, demand, months = NULL) {
 
   # Create the plot
   plot <- ggplot2::ggplot(data_melted, ggplot2::aes(x = .data$Time, y = .data$value, color = .data$variable)) +
-    ggplot2::geom_line(size = 1) +
+    ggplot2::geom_line(linewidth = 1) +
     ggplot2::geom_point() +
     ggplot2::scale_x_continuous(breaks = time, labels = time_labels) +
     ggplot2::theme_minimal() +
