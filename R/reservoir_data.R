@@ -15,5 +15,5 @@
 #' @details
 #' This dataset is used to demonstrate the optimization of reservoir releases using the \code{OptGoal} package.
 #' @source
-#' Simulated data created for demonstration purposes.
+#' Mahaweli Authority of Sri Lanka.
 "reservoir_data"
