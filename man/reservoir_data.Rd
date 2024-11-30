@@ -15,7 +15,7 @@ A data frame with 12 rows and 5 variables:
 }
 }
 \source{
-Simulated data created for demonstration purposes.
+Mahaweli Authority of Sri Lanka.
 }
 \usage{
 data(reservoir_data)
