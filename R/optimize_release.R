@@ -14,7 +14,7 @@
 #'
 #' @return A list containing optimized release schedules, storage levels, deviations, and the objective value.
 #' @examples
-#' # Using the reservoir_data dataset
+#' # Using the reservoir_data data set
 #' data(reservoir_data)
 #' constraints <- list(
 #'   initial_storage = 500,
@@ -33,19 +33,21 @@ optimize_release <- function(inflow, demand, constraints) {
   T <- length(inflow)  # Number of time periods
 
   # Input validation
+  #Inflow and demand
   if (length(demand) != T) {
     stop("Inflow and demand vectors must be of the same length.")
   }
+  #S_min and S_max
   if (length(constraints$S_min) != T || length(constraints$S_max) != T) {
     stop("S_min and S_max must be vectors of length equal to the number of time periods.")
   }
+  #S_min <= S_max
   if (any(constraints$S_min > constraints$S_max)) {
     stop("Each element of S_min must be less than or equal to the corresponding element in S_max.")
   }
 
-
   # Decision variables for each time period:
-  # R_t (release), S_t (storage), d_t^+, d_t^-
+  # R_t (release), S_t (storage), d_t^+ (positive deviation), d_t^- (negative deviation)
   num_vars <- T * 4  # Total number of variables
 
   # Objective function coefficients
