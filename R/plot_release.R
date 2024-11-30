@@ -8,7 +8,7 @@
 #'
 #' @return A ggplot object displaying the release over time.
 #' @examples
-#' # Using the reservoir_data dataset
+#' # Using the reservoir_data data set
 #' data(reservoir_data)
 #' constraints <- list(
 #'   initial_storage = 500,
@@ -27,9 +27,9 @@
 plot_release <- function(release, months = NULL) {
   if (!is.numeric(release)) {
     stop("release must be a numeric vector.")
-  }
+  } #check the condition under release
 
-  time <- seq_along(release)
+  time <- seq_along(release) #Define time
 
   # Assign default month names if appropriate
   if (is.null(months) && length(release) == 12) {
@@ -44,12 +44,12 @@ plot_release <- function(release, months = NULL) {
     time_labels <- months
   } else {
     time_labels <- time
-  }
+  } #Check the length of months and release are equal or not
 
   data <- data.frame(
     Time = time,
     Release = release
-  )
+  ) #Assign time and release into a data frame
 
   plot <- ggplot2::ggplot(data, ggplot2::aes(x = .data$Time, y = .data$Release)) +
     ggplot2::geom_line(color = "red", linewidth = 1) +
