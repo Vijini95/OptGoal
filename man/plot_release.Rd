@@ -19,7 +19,7 @@ A ggplot object displaying the release over time.
 This function plots the release data over time with x-axis labels as months.
 }
 \examples{
-# Using the reservoir_data dataset
+# Using the reservoir_data data set
 data(reservoir_data)
 constraints <- list(
   initial_storage = 500,

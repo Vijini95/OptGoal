@@ -26,7 +26,7 @@ This function optimizes water release strategies for a single reservoir using go
 considering time-varying minimum and maximum storage limits.
 }
 \examples{
-# Using the reservoir_data dataset
+# Using the reservoir_data data set
 data(reservoir_data)
 constraints <- list(
   initial_storage = 500,

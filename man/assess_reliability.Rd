@@ -19,7 +19,7 @@ This function assesses the reliability of the release strategies against demand,
 calculating time-based reliability, and volume-based reliability.
 }
 \examples{
-# Using the reservoir_data dataset
+# Using the reservoir_data data set
 data(reservoir_data)
 constraints <- list(
   initial_storage = 500,
