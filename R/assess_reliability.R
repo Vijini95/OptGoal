@@ -8,7 +8,7 @@
 #'
 #' @return A data frame containing the reliability metrics.
 #' @examples
-#' # Using the reservoir_data dataset
+#' # Using the reservoir_data data set
 #' data(reservoir_data)
 #' constraints <- list(
 #'   initial_storage = 500,
