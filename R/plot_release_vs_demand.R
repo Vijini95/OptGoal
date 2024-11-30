@@ -37,9 +37,9 @@ plot_release_vs_demand <- function(release, demand, months = NULL) {
   }
   if (length(release) != length(demand)) {
     stop("release and demand must be of the same length.")
-  }
+  } #Check the conditions
 
-  time <- seq_along(release)
+  time <- seq_along(release) #Define time
 
   # Assign default month names if appropriate
   if (is.null(months) && length(release) == 12) {
@@ -54,13 +54,13 @@ plot_release_vs_demand <- function(release, demand, months = NULL) {
     time_labels <- months
   } else {
     time_labels <- time
-  }
+  } #Check the length of months, release, and demand are equal or not
 
   data <- data.frame(
     Time = time,
     Release = release,
     Demand = demand
-  )
+  ) #Assign time, release, and demand into a data frame
 
   # Melt data for plotting
   data_melted <- reshape2::melt(data, id.vars = "Time")
