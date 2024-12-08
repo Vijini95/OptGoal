@@ -4,7 +4,19 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-Optimal water release plan is an important category under water reservoir management. Operations research (OR) is a problem-solving and decision-making analytical method that is effective in the management of organizations. Goal programming is a type of operational research concept that fits for having multiple goals instead of a single objective. This package provides tools for optimizing water release strategies from reservoirs using goal programming techniques. The package allows users to determine optimal release schedules considering inflow, demand, and constraints. It also assesses the reliability of these release strategies against water demand. Visualization functions are included to display reliability metrics, release schedules, and demand, facilitating effective interpretation and decision-making in water reservoir management.
+Optimal water release plan is an important category under water reservoir management. Operations research (OR) is a problem-solving and decision-making analytical method that is effective in the management of organizations. Goal programming is a type of operational research concept that fits for having multiple goals instead of a single objective. This package provides tools for optimizing water release strategies from reservoirs using goal programming techniques. The package allows users to determine optimal release schedules considering inflow, demand, and constraints. It also assesses the reliability of these release strategies against water demand. Visualization functions are included to display reliability metrics, release schedules, and demand, facilitating effective interpretation and decision-making in water reservoir management. This package is based on a case study.
+
+## Outline
+
+This package includes four main functions:
+
+[1] optimize_release: Optimizes water release strategies for a single reservoir using goal programming, considering time-varying minimum and maximum storage limits.
+
+[2] assess_reliability: Assesses the reliability of the release strategies against demand, calculating time-based reliability, and volume-based reliability.
+
+[3] plot_release: Plots the release data over time with x-axis labels as months.
+
+[4] plot_release_vs_demand: Plots both the release and demand data over time, allowing for easy comparison between the two.
 
 ## Installation
 
@@ -50,3 +62,7 @@ plot_release_vs_demand(result$release, demand)
 [2] https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=ab4bd579b616522619686295eaee77bfc17745a8
 
 [3] https://www.researchgate.net/publication/28600555_Optimal_Reservoir_Operation_Using_Multi-Objective_Evolutionary_Algorithm
+
+## Data Source
+
+Mahaweli Authority of Sri Lanka.
