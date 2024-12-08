@@ -64,7 +64,7 @@ $$d_i^- \geq 0 $$
 
 ## Data (1996 - 2020)
 
-Data collected from 1996 to 2020. In this model, we use the average of the data.
+Data collected from 1996 to 2020. In this model, we use the average of the data. Data source: Mahaweli Authority of Sri Lanka.
 
 | Month    | Inflow ($m^3$) | Demand ($m^3$)   | Minimum_Storage ($m^3$) | Maximum_Storage ($m^3$) |
 |---------|-------|--------------|----------------- |----------------|
@@ -444,5 +444,6 @@ Finding a workable solution in a linear programming model is impossible if the d
 
 [1] http://www.pgis.pdn.ac.lk/rescon2021/abstracts/ICTMS/44.pdf
 
-[2] https://r-pkgs.org/
+[2] https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=ab4bd579b616522619686295eaee77bfc17745a8
 
+[3] https://www.researchgate.net/publication/28600555_Optimal_Reservoir_Operation_Using_Multi-Objective_Evolutionary_Algorithm
