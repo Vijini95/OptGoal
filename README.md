@@ -10,13 +10,13 @@ Optimal water release plan is an important category under water reservoir manage
 
 This package includes four main functions:
 
-[1] optimize_release: Optimizes water release strategies for a single reservoir using goal programming, considering time-varying minimum and maximum storage limits.
+[1] `optimize_release`: Optimizes water release strategies for a single reservoir using goal programming, considering time-varying minimum and maximum storage limits.
 
-[2] assess_reliability: Assesses the reliability of the release strategies against demand, calculating time-based reliability, and volume-based reliability.
+[2] `assess_reliability`: Assesses the reliability of the release strategies against demand, calculating time-based reliability, and volume-based reliability.
 
-[3] plot_release: Plots the release data over time with x-axis labels as months.
+[3] `plot_release`: Plots the release data over time with x-axis labels as months.
 
-[4] plot_release_vs_demand: Plots both the release and demand data over time, allowing for easy comparison between the two.
+[4] `plot_release_vs_demand`: Plots both the release and demand data over time, allowing for easy comparison between the two.
 
 ## Installation
 
