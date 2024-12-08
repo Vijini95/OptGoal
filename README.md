@@ -49,5 +49,4 @@ plot_release_vs_demand(result$release, demand)
 
 [2] https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=ab4bd579b616522619686295eaee77bfc17745a8
 
-[3] https://www.researchgate.net/publication/336186183_Assessing_
-water_management_alternatives_in_a_multipurpose_reservoir_cascade_system_in_Sri_Lanka
+[3] https://www.researchgate.net/publication/28600555_Optimal_Reservoir_Operation_Using_Multi-Objective_Evolutionary_Algorithm
