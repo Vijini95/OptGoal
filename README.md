@@ -48,3 +48,7 @@ plot_release_vs_demand(result$release, demand)
 [1] http://www.pgis.pdn.ac.lk/rescon2021/abstracts/ICTMS/44.pdf
 
 [2] https://r-pkgs.org/
+
+[3] https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=ab4bd579b616522619686295eaee77bfc17745a8
+
+[4] https://www.researchgate.net/publication/336186183_Assessing_water_management_alternatives_in_a_multipurpose_reservoir_cascade_system_in_Sri_Lanka
