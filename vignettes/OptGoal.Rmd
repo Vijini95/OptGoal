@@ -25,6 +25,18 @@ While there are existing packages that address water release optimization, focus
 methods without incorporating goal programming. This package fills this gap by providing tools for goal programming optimization and reliability assessment in water reservoir management. Furthermore, the package includes visualization functionalities to effectively display 
 input data and output results, for better interpretation and decision-making. This package is based on a case study. 
 
+## Outline
+
+This package includes four main functions:
+
+[1] `optimize_release`: Optimizes water release strategies for a single reservoir using goal programming, considering time-varying minimum and maximum storage limits.
+
+[2] `assess_reliability`: Assesses the reliability of the release strategies against demand, calculating time-based reliability, and volume-based reliability.
+
+[3] `plot_release`: Plots the release data over time with x-axis labels as months.
+
+[4] `plot_release_vs_demand`: Plots both the release and demand data over time, allowing for easy comparison between the two.
+
 ## Model
 
 #### Inputs
@@ -41,7 +53,7 @@ input data and output results, for better interpretation and decision-making. Th
 
 #### Objective function
 
-Consider $R_t$ $\leq$ $D_t$ for $t$ = 1,...,12.
+Consider $R_t$ $\leq$ $D_t$ for $t$ = 1,...,12; where $R_t$ is monthly release
 
 So, the negative deviations must be minimized.
 \[Minimize: Z = \sum_{i=1}^n d_i^- \]
