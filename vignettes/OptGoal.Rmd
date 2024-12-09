@@ -49,14 +49,14 @@ This package includes four main functions:
 #### Deviation variables 
 
 1. Positive deviation ($d_i^+$)
-2. Negative deviation ($d_i^-$)
+2. Negative deviation ($d_i^-$) ; where $i$ = 1,...,$t$
 
 #### Objective function
 
 Consider $R_t$ $\leq$ $D_t$ for $t$ = 1,...,12; where $R_t$ is monthly release
 
 So, the negative deviations must be minimized.
-\[Minimize: Z = \sum_{i=1}^n d_i^- \]
+\[Minimize: Z = \sum_{i=1}^t d_i^- \] 
 
 #### Constraints
 
